@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "progress_bar.png": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 614,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 614,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 614,
+        "h": 23
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "progress_slider.png": {
+      "frame": {
+        "x": 1,
+        "y": 26,
+        "w": 608,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 608,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 608,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "atlas.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 616,
+      "h": 44
+    },
+    "scale": 1
+  }
+}
