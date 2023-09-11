@@ -1,7 +1,7 @@
 import "./styles.css";
 import { SceneManager } from "./scenes/SceneManager";
 import { LoaderScene } from "./scenes/LoaderScene";
-// import { GameScene } from "./scenes/GameScene";
+import { GameScene } from "./scenes/GameScene";
 
 async function run() {
   const loader = document.querySelector(".loader");
@@ -12,14 +12,10 @@ async function run() {
   const loaderScene = new LoaderScene();
   await SceneManager.changeScene({ newScene: loaderScene });
   await loaderScene.loadAll();
-  // const gameScene = new GameScene({
-  //   app: SceneManager.app,
-  //   viewWidth: SceneManager.width,
-  //   viewHeight: SceneManager.height,
-  // });
-  // await SceneManager.changeScene({
-  //   newScene: gameScene
-  // })
+  const gameScene = new GameScene();
+  await SceneManager.changeScene({
+    newScene: gameScene,
+  });
 
   document.addEventListener("keydown", (e) => {
     console.log(e.code);

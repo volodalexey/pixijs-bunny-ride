@@ -5,13 +5,13 @@
   "savePath": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src/assets/spritesheets",
   "images": [
     {
-      "name": "progress_bar.png",
-      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/progress_bar.png",
+      "name": "coin_score_plate.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/coin_score_plate.png",
       "folder": ""
     },
     {
-      "name": "progress_slider.png",
-      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/progress_slider.png",
+      "name": "collect_coin_icon.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/collect_coin_icon.png",
       "folder": ""
     }
   ],

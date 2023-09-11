@@ -1,6 +1,6 @@
 import { Application } from "pixi.js";
 import { logApp } from "../utils/logger";
-import { IScene, PixiApp } from "./IScene";
+import { IScene, ISceneResizeParams, PixiApp } from "./IScene";
 
 declare global {
   interface Window {
@@ -21,6 +21,10 @@ export class SceneManager {
 
   static get height() {
     return window.innerHeight;
+  }
+
+  static intoResizeParams(): ISceneResizeParams {
+    return { viewWidth: this.width, viewHeight: this.height };
   }
 
   static async initialize() {
@@ -102,10 +106,7 @@ export class SceneManager {
   }
 
   static resizeHandler() {
-    SceneManager.currentScene?.handleResize({
-      viewWidth: SceneManager.width,
-      viewHeight: SceneManager.height,
-    });
+    SceneManager.currentScene?.handleResize(SceneManager.intoResizeParams());
   }
 
   static updateHandler() {

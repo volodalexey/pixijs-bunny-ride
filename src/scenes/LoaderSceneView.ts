@@ -1,7 +1,8 @@
-import { Container, Graphics, Text, Texture } from "pixi.js";
+import { Container, Graphics, Text, TextStyle, Texture } from "pixi.js";
 import { Resize } from "../utils/Resize";
 import { ISceneResizeParams, ISceneView } from "./IScene";
 import { SceneManager } from "./SceneManager";
+import { COLOR_GREEN, FONT_FAMILY, FONT_SIZE_BIG } from "../utils/constants";
 
 export class LoaderSceneView extends Container implements ISceneView {
   #loaderTitle!: Text;
@@ -19,10 +20,13 @@ export class LoaderSceneView extends Container implements ISceneView {
   };
 
   static titleText = "Загрузка";
-  static titleOptions = {
-    fontFamily: "Zubilo Black",
-    fontSize: 30,
-    fill: 0x00cc00,
+  static titleOptions: Pick<
+    TextStyle,
+    "fontFamily" | "fontSize" | "fill" | "stroke" | "strokeThickness" | "letterSpacing"
+  > = {
+    fontFamily: FONT_FAMILY,
+    fontSize: FONT_SIZE_BIG,
+    fill: COLOR_GREEN,
     stroke: 0xffffff,
     strokeThickness: 1,
     letterSpacing: 5,
@@ -47,7 +51,7 @@ export class LoaderSceneView extends Container implements ISceneView {
 
     const loaderBar = new Container();
     this.addChild(loaderBar);
-    loaderBar.position.y = LoaderSceneView.titleOptions.fontSize * 1.2;
+    loaderBar.position.y = Number(LoaderSceneView.titleOptions.fontSize) * 1.2;
     this.#loaderBar = loaderBar;
 
     const loaderBarBorder = new Graphics();
