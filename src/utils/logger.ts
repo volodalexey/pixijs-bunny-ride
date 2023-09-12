@@ -9,3 +9,4 @@ function intoLogName(logName: string): string {
 export const logApp = debug(intoLogName("app"));
 export const logLoader = debug(intoLogName("loader"));
 export const logLayout = debug(intoLogName("layout"));
+export const logWidthHeight = debug(intoLogName("width-height"));

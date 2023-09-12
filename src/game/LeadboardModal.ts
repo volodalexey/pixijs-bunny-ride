@@ -36,7 +36,7 @@ export class LeadboardModal extends Modal {
   };
 
   constructor(options: LeadboardModalOptions) {
-    super({ ...options, width: 500, title: "Таблица рекордов:" });
+    super({ ...options, title: "Таблица рекордов:" });
 
     this.setupContent();
   }

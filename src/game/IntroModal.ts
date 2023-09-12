@@ -36,7 +36,7 @@ export class IntroModal extends Modal {
   };
 
   constructor(options: IntroModalOptions) {
-    super({ ...options, width: 500, title: "Твои рекорды:" });
+    super({ ...options, title: "Твои рекорды:" });
 
     this.setupContent();
   }

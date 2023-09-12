@@ -65,10 +65,11 @@ export class Modal extends Container {
       ...this.options.header,
     });
     headerText.anchor.x = 0.5;
-    this.addChild(headerText);
     this.headerText = headerText;
 
     Scale.handleWidthHeight(this, width, height);
+
+    this.addChild(headerText);
   }
 
   showModal(): void {
