@@ -2,7 +2,7 @@ import { Container, Graphics, Text, TextStyle, Texture } from "pixi.js";
 import { Resize } from "../utils/Resize";
 import { ISceneResizeParams, ISceneView } from "./IScene";
 import { SceneManager } from "./SceneManager";
-import { COLOR_GREEN, FONT_FAMILY, FONT_SIZE_BIG } from "../utils/constants";
+import { COLOR_GREEN, FONT_FAMILY, FONT_SIZE_XL } from "../utils/constants";
 
 export class LoaderSceneView extends Container implements ISceneView {
   #loaderTitle!: Text;
@@ -25,7 +25,7 @@ export class LoaderSceneView extends Container implements ISceneView {
     "fontFamily" | "fontSize" | "fill" | "stroke" | "strokeThickness" | "letterSpacing"
   > = {
     fontFamily: FONT_FAMILY,
-    fontSize: FONT_SIZE_BIG,
+    fontSize: FONT_SIZE_XL,
     fill: COLOR_GREEN,
     stroke: 0xffffff,
     strokeThickness: 1,
@@ -111,8 +111,8 @@ export class LoaderSceneView extends Container implements ISceneView {
       view: this.#loaderBar,
       availableWidth,
       availableHeight,
-      totalWidth,
-      totalHeight,
+      contentWidth: totalWidth,
+      contentHeight: totalHeight,
       lockX: true,
       lockY: true,
     });
@@ -120,8 +120,8 @@ export class LoaderSceneView extends Container implements ISceneView {
       view: this.#loaderTitle,
       availableWidth: this.#loaderBar.width,
       availableHeight,
-      totalWidth: this.#loaderTitle.width,
-      totalHeight,
+      contentWidth: this.#loaderTitle.width,
+      contentHeight: totalHeight,
       lockWidth: true,
       lockHeight: true,
       lockY: true,
@@ -130,8 +130,8 @@ export class LoaderSceneView extends Container implements ISceneView {
       view: this,
       availableWidth,
       availableHeight,
-      totalWidth,
-      totalHeight,
+      contentWidth: totalWidth,
+      contentHeight: totalHeight,
       lockWidth: true,
       lockHeight: true,
     });

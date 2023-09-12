@@ -9,8 +9,8 @@ export interface HandleResizeParams {
   view: Container;
   availableWidth: number;
   availableHeight: number;
-  totalWidth: number;
-  totalHeight: number;
+  contentWidth?: number;
+  contentHeight?: number;
   logName?: string;
   lockX?: boolean;
   lockY?: boolean;
@@ -18,13 +18,13 @@ export interface HandleResizeParams {
   lockHeight?: boolean;
 }
 
-export class Resize {
+export abstract class Resize {
   static handleResize({
     view,
     availableWidth,
     availableHeight,
-    totalWidth,
-    totalHeight,
+    contentWidth = view.width,
+    contentHeight = view.height,
     logName = "",
     lockX = false,
     lockY = false,
@@ -32,29 +32,29 @@ export class Resize {
     lockHeight = false,
   }: HandleResizeParams) {
     let occupiedWidth, occupiedHeight;
-    if (availableWidth >= totalWidth && availableHeight >= totalHeight) {
-      occupiedWidth = totalWidth;
-      occupiedHeight = totalHeight;
+    if (availableWidth >= contentWidth && availableHeight >= contentHeight) {
+      occupiedWidth = contentWidth;
+      occupiedHeight = contentHeight;
       logLayout(
         `${logName} Spacing aw=${availableWidth} ow=${occupiedWidth} ah=${availableHeight} oh=${occupiedHeight}`,
       );
     } else {
       let scale = 1;
-      if (totalHeight >= totalWidth) {
-        scale = availableHeight / totalHeight;
-        if (scale * totalWidth > availableWidth) {
-          scale = availableWidth / totalWidth;
+      if (contentHeight >= contentWidth) {
+        scale = availableHeight / contentHeight;
+        if (scale * contentWidth > availableWidth) {
+          scale = availableWidth / contentWidth;
         }
         logLayout(`${logName} By height (sc=${scale})`);
       } else {
-        scale = availableWidth / totalWidth;
+        scale = availableWidth / contentWidth;
         logLayout(`${logName} By width (sc=${scale})`);
-        if (scale * totalHeight > availableHeight) {
-          scale = availableHeight / totalHeight;
+        if (scale * contentHeight > availableHeight) {
+          scale = availableHeight / contentHeight;
         }
       }
-      occupiedWidth = Math.floor(totalWidth * scale);
-      occupiedHeight = Math.floor(totalHeight * scale);
+      occupiedWidth = Math.floor(contentWidth * scale);
+      occupiedHeight = Math.floor(contentHeight * scale);
       logLayout(
         `${logName} Scaling aw=${availableWidth} (ow=${occupiedWidth}) ah=${availableHeight} (oh=${occupiedHeight})`,
       );

@@ -3,7 +3,8 @@ import { StatusBar } from "./StatusBar";
 import { ISceneResizeParams, PixiApp } from "../scenes/IScene";
 import { ControlsBar } from "./ControlsBar";
 import { GameAudio } from "../utils/Audio";
-// import { SuccessModal } from "./SuccessModal";
+import { IntroModal } from "./IntroModal";
+import { Resize } from "../utils/Resize";
 
 export interface UIOptions {
   pixiApp: PixiApp;
@@ -13,7 +14,7 @@ export interface UIOptions {
 export class UI extends Container {
   #statusBar!: StatusBar;
   controlsBar!: ControlsBar;
-  //   #successModal!: SuccessModal;
+  #introModal!: IntroModal;
   #aspectRatio = 9 / 16;
 
   static options = {
@@ -36,14 +37,11 @@ export class UI extends Container {
     this.addChild(controlsBar.view);
     this.controlsBar = controlsBar;
 
-    // const startModal = new SuccessModal({
-    //   onClick: () => {
-    //     this.onNextLevel();
-    //   },
-    // });
-    // startModal.hideModal();
-    // this.#view.addChild(startModal);
-    // this.#successModal = startModal;
+    const introModal = new IntroModal({
+      title: "Твои рекорды:",
+    });
+    this.addChild(introModal);
+    this.#introModal = introModal;
   }
 
   setCollectedCoinsCount(count: number) {
@@ -53,17 +51,15 @@ export class UI extends Container {
   handleResize(options: ISceneResizeParams) {
     this.#statusBar.handleResize(options);
     this.controlsBar.handleResize(options);
+    this.#introModal.handleResize(options);
+    Resize.handleResize({
+      view: this.#introModal,
+      availableWidth: options.viewWidth,
+      availableHeight: options.viewHeight,
+      lockWidth: true,
+      lockHeight: true,
+    });
   }
 
   handleUpdate() {}
-
-  //   toggleSuccessModal(toggle) {
-  //     if (toggle) {
-  //       this.#successModal.showModal();
-  //       this.#splitScreen.toggleDisabled(true);
-  //     } else {
-  //       this.#successModal.hideModal();
-  //       this.#splitScreen.toggleDisabled(false);
-  //     }
-  //   }
 }

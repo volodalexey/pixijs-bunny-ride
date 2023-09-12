@@ -1,4 +1,5 @@
 import { Assets, Container, FederatedPointerEvent, Sprite, Spritesheet, Texture } from "pixi.js";
+import { Scale } from "../utils/Scale";
 
 export interface IconButtonOptions {
   pressed?: boolean;
@@ -56,18 +57,7 @@ export class IconButton extends Container {
     this.addChild(this.sprites.hover);
     this.addChild(this.sprites.press);
 
-    const isWidth = Number.isFinite(width);
-    const isHeight = Number.isFinite(height);
-    if (isWidth && isHeight) {
-      this.width = <number>width;
-      this.height = <number>height;
-    } else if (isWidth && !isHeight) {
-      this.width = <number>width;
-      this.scale.y = this.scale.x;
-    } else if (!isWidth && isHeight) {
-      this.height = <number>height;
-      this.scale.x = this.scale.y;
-    }
+    Scale.handleWidthHeight(this, width, height);
 
     this.setupEventLesteners();
   }
