@@ -1,36 +1,40 @@
 import { Container } from "pixi.js";
 import { StatusBar } from "./StatusBar";
-import { ISceneResizeParams } from "../scenes/IScene";
+import { ISceneResizeParams, PixiApp } from "../scenes/IScene";
 import { ControlsBar } from "./ControlsBar";
+import { GameAudio } from "../utils/Audio";
 // import { SuccessModal } from "./SuccessModal";
 
-export class UI {
+export interface UIOptions {
+  pixiApp: PixiApp;
+  audio: GameAudio;
+}
+
+export class UI extends Container {
   #statusBar!: StatusBar;
-  #controlsBar!: ControlsBar;
+  controlsBar!: ControlsBar;
   //   #successModal!: SuccessModal;
   #aspectRatio = 9 / 16;
-  #view = new Container();
 
   static options = {
     gap: 10,
   };
 
-  constructor() {
-    this.setup();
+  constructor(options: UIOptions) {
+    super();
+    this.setup(options);
   }
 
-  get view() {
-    return this.#view;
-  }
-
-  setup() {
+  setup({ audio }: UIOptions) {
     const statusBar = new StatusBar();
-    this.#view.addChild(statusBar.view);
+    this.addChild(statusBar.view);
     this.#statusBar = statusBar;
 
-    const controlsBar = new ControlsBar();
-    this.#view.addChild(controlsBar.view);
-    this.#controlsBar = controlsBar;
+    const controlsBar = new ControlsBar({
+      audio,
+    });
+    this.addChild(controlsBar.view);
+    this.controlsBar = controlsBar;
 
     // const startModal = new SuccessModal({
     //   onClick: () => {
@@ -48,7 +52,7 @@ export class UI {
 
   handleResize(options: ISceneResizeParams) {
     this.#statusBar.handleResize(options);
-    this.#controlsBar.handleResize(options);
+    this.controlsBar.handleResize(options);
   }
 
   handleUpdate() {}

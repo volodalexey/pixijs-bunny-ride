@@ -1,6 +1,7 @@
 import { Container } from "pixi.js";
 import { UI } from "./UI";
 import { ISceneResizeParams, PixiApp } from "../scenes/IScene";
+import { GameAudio } from "../utils/Audio";
 
 export interface IGameOptions {
   pixiApp: PixiApp;
@@ -9,15 +10,20 @@ export interface IGameOptions {
 
 export class Game {
   #pixiApp!: PixiApp;
+  #audio!: GameAudio;
   #view!: Container;
   #ui!: UI;
   #isEndGame = false;
+  #paused = false;
 
   constructor({ pixiApp, view }: IGameOptions) {
     this.#pixiApp = pixiApp;
+    this.#audio = new GameAudio();
     this.#view = view;
-    this.#ui = new UI();
-    this.#view.addChild(this.#ui.view);
+    this.#ui = new UI({ pixiApp, audio: this.#audio });
+    this.#view.addChild(this.#ui);
+
+    this.#ui.controlsBar.view.buttonPause.on("pointerdown", this.handlePause);
   }
 
   handleResize(options: ISceneResizeParams) {
@@ -34,4 +40,9 @@ export class Game {
       return;
     }
   }
+
+  handlePause = () => {
+    this.#paused = !this.#paused;
+    this.#ui.controlsBar.view.buttonPause.externalPressed = this.#paused;
+  };
 }

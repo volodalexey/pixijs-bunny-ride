@@ -1,6 +1,8 @@
 import { Assets, Container, FederatedPointerEvent, Sprite, Spritesheet, Texture } from "pixi.js";
 
 export interface IconButtonOptions {
+  pressed?: boolean;
+  externalPressed?: boolean;
   width?: number;
   height?: number;
   textureNames: { active: string; hover: string; press: string };
@@ -11,6 +13,8 @@ type ButtonStateTextures = { active: Texture; hover: Texture; press: Texture };
 type ButtonStateSprites = { active: Sprite; hover: Sprite; press: Sprite };
 
 export class IconButton extends Container {
+  pressed = false;
+  externalPressed: IconButtonOptions["externalPressed"];
   textures!: ButtonStateTextures;
   sprites!: ButtonStateSprites;
 
@@ -19,12 +23,17 @@ export class IconButton extends Container {
   constructor(options: IconButtonOptions) {
     super();
 
+    if (options.pressed != null) {
+      this.pressed = options.pressed;
+    }
+    this.externalPressed = options.externalPressed;
+
     this.eventMode = "static";
     this.cursor = "pointer";
     this.onClick = options.onClick;
 
     this.setup(options);
-    this.updateState();
+    this.updateState(false, this.pressed);
   }
 
   setup({ width, height, textureNames }: IconButtonOptions) {
@@ -103,6 +112,9 @@ export class IconButton extends Container {
   }
 
   updateState(hovered = false, pressed = false) {
+    if (this.externalPressed != null) {
+      pressed = this.externalPressed;
+    }
     if (pressed) {
       this.pressedState();
     } else {

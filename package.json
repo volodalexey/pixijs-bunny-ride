@@ -5,10 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "debug": "^4.3.4",
+    "howler": "^2.2.3",
     "pixi.js": "^7.2.4"
   },
   "devDependencies": {
     "@types/debug": "^4.1.8",
+    "@types/howler": "^2.2.8",
     "@types/node": "^20.6.0",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "copy-webpack-plugin": "^11.0.0",

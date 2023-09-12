@@ -45,8 +45,13 @@ export class ControlsBarView extends Container {
         press: "btn_sound_0_press.png",
       },
     });
+    this.buttonSoundOff.on("pointerdown", () => {
+      this.buttonSoundOn.visible = true;
+      this.buttonSoundOff.visible = false;
+    });
 
     this.buttonSoundOn = new IconButton({
+      pressed: true,
       width: 80,
       textureNames: {
         active: "btn_sound_1_active.png",
@@ -54,6 +59,11 @@ export class ControlsBarView extends Container {
         press: "btn_sound_1_press.png",
       },
     });
+    this.buttonSoundOn.on("pointerdown", () => {
+      this.buttonSoundOn.visible = false;
+      this.buttonSoundOff.visible = true;
+    });
+    this.buttonSoundOn.visible = false;
 
     this.addChild(this.buttonFullscreen);
     this.addChild(this.buttonSoundOff);
