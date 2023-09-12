@@ -24,6 +24,7 @@ export class Game {
     this.#view.addChild(this.#ui);
 
     this.#ui.controlsBar.view.buttonPause.on("pointerdown", this.handlePause);
+    this.#ui.introModal.playButton.on("pointerdown", this.handleStart);
   }
 
   handleResize(options: ISceneResizeParams) {
@@ -44,5 +45,11 @@ export class Game {
   handlePause = () => {
     this.#paused = !this.#paused;
     this.#ui.controlsBar.view.buttonPause.externalPressed = this.#paused;
+  };
+
+  handleStart = () => {
+    this.#isEndGame = false;
+    this.#paused = false;
+    this.#ui.hideIntro();
   };
 }

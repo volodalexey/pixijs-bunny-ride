@@ -5,6 +5,7 @@ import { ControlsBar } from "./ControlsBar";
 import { GameAudio } from "../utils/Audio";
 import { IntroModal } from "./IntroModal";
 import { Resize } from "../utils/Resize";
+import { LeadboardModal } from "./LeadboardModal";
 
 export interface UIOptions {
   pixiApp: PixiApp;
@@ -14,7 +15,8 @@ export interface UIOptions {
 export class UI extends Container {
   #statusBar!: StatusBar;
   controlsBar!: ControlsBar;
-  #introModal!: IntroModal;
+  introModal!: IntroModal;
+  leadboardModal!: LeadboardModal;
   #aspectRatio = 9 / 16;
 
   static options = {
@@ -37,11 +39,15 @@ export class UI extends Container {
     this.addChild(controlsBar.view);
     this.controlsBar = controlsBar;
 
-    const introModal = new IntroModal({
-      title: "Твои рекорды:",
-    });
+    const introModal = new IntroModal({});
     this.addChild(introModal);
-    this.#introModal = introModal;
+    this.introModal = introModal;
+    introModal.leadboardButton.on("pointerdown", this.switchToLeaderboard);
+
+    const leadboardModal = new LeadboardModal({ visible: false });
+    this.addChild(leadboardModal);
+    this.leadboardModal = leadboardModal;
+    leadboardModal.okButton.on("pointerdown", this.switchToInto);
   }
 
   setCollectedCoinsCount(count: number) {
@@ -51,15 +57,37 @@ export class UI extends Container {
   handleResize(options: ISceneResizeParams) {
     this.#statusBar.handleResize(options);
     this.controlsBar.handleResize(options);
-    this.#introModal.handleResize(options);
+    this.introModal.handleResize(options);
+    this.leadboardModal.handleResize(options);
     Resize.handleResize({
-      view: this.#introModal,
+      view: this.introModal,
+      availableWidth: options.viewWidth,
+      availableHeight: options.viewHeight,
+      lockWidth: true,
+      lockHeight: true,
+    });
+    Resize.handleResize({
+      view: this.leadboardModal,
       availableWidth: options.viewWidth,
       availableHeight: options.viewHeight,
       lockWidth: true,
       lockHeight: true,
     });
   }
+
+  hideIntro() {
+    this.introModal.visible = false;
+  }
+
+  switchToLeaderboard = () => {
+    this.hideIntro();
+    this.leadboardModal.visible = true;
+  };
+
+  switchToInto = () => {
+    this.introModal.visible = true;
+    this.leadboardModal.visible = false;
+  };
 
   handleUpdate() {}
 }

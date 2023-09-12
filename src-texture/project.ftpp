@@ -115,6 +115,21 @@
       "folder": ""
     },
     {
+      "name": "ok_button_active.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/ok_button_active.png",
+      "folder": ""
+    },
+    {
+      "name": "ok_button_hover.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/ok_button_hover.png",
+      "folder": ""
+    },
+    {
+      "name": "ok_button_press.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/ok_button_press.png",
+      "folder": ""
+    },
+    {
       "name": "play_button_active.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/play_button_active.png",
       "folder": ""

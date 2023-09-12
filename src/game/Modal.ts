@@ -26,7 +26,6 @@ export class Modal extends Container {
       fill: COLOR_BLUE,
       stroke: 0xffffff,
       strokeThickness: 1,
-      letterSpacing: 5,
     },
   };
 
