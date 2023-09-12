@@ -24,10 +24,298 @@
         "y": 0.5
       }
     },
-    "collect_coin_icon.png": {
+    "btn_sound_0_hover.png": {
       "frame": {
         "x": 1,
         "y": 69,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_fullscreen_press.png": {
+      "frame": {
+        "x": 1,
+        "y": 176,
+        "w": 120,
+        "h": 99
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 18,
+        "w": 120,
+        "h": 99
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_pause_active.png": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_pause_hover.png": {
+      "frame": {
+        "x": 123,
+        "y": 108,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_pause_press.png": {
+      "frame": {
+        "x": 1,
+        "y": 277,
+        "w": 120,
+        "h": 99
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 18,
+        "w": 120,
+        "h": 99
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_sound_0_active.png": {
+      "frame": {
+        "x": 123,
+        "y": 215,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_fullscreen_hover.png": {
+      "frame": {
+        "x": 317,
+        "y": 1,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_sound_0_press.png": {
+      "frame": {
+        "x": 245,
+        "y": 108,
+        "w": 120,
+        "h": 99
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 18,
+        "w": 120,
+        "h": 99
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_sound_1_active.png": {
+      "frame": {
+        "x": 245,
+        "y": 209,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_sound_1_hover.png": {
+      "frame": {
+        "x": 1,
+        "y": 378,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_sound_1_press.png": {
+      "frame": {
+        "x": 123,
+        "y": 322,
+        "w": 120,
+        "h": 99
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 18,
+        "w": 120,
+        "h": 99
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "btn_fullscreen_active.png": {
+      "frame": {
+        "x": 245,
+        "y": 316,
+        "w": 120,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 12,
+        "w": 120,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 130
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "collect_coin_icon.png": {
+      "frame": {
+        "x": 439,
+        "y": 1,
         "w": 100,
         "h": 90
       },
@@ -55,8 +343,8 @@
     "image": "atlas.png",
     "format": "RGBA8888",
     "size": {
-      "w": 194,
-      "h": 160
+      "w": 540,
+      "h": 484
     },
     "scale": 1
   }

@@ -5,6 +5,66 @@
   "savePath": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src/assets/spritesheets",
   "images": [
     {
+      "name": "btn_fullscreen_active.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_fullscreen_active.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_fullscreen_hover.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_fullscreen_hover.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_fullscreen_press.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_fullscreen_press.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_pause_active.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_pause_active.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_pause_hover.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_pause_hover.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_pause_press.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_pause_press.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_sound_0_active.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_sound_0_active.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_sound_0_hover.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_sound_0_hover.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_sound_0_press.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_sound_0_press.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_sound_1_active.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_sound_1_active.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_sound_1_hover.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_sound_1_hover.png",
+      "folder": ""
+    },
+    {
+      "name": "btn_sound_1_press.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_sound_1_press.png",
+      "folder": ""
+    },
+    {
       "name": "coin_score_plate.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/coin_score_plate.png",
       "folder": ""
@@ -35,7 +95,7 @@
     "powerOfTwo": false,
     "padding": 1,
     "extrude": 0,
-    "allowRotation": true,
+    "allowRotation": false,
     "allowTrim": true,
     "trimMode": "trim",
     "alphaThreshold": "0",

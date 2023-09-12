@@ -25,6 +25,10 @@ export class StatusBarView extends Container {
   constructor() {
     super();
 
+    this.setup();
+  }
+
+  setup() {
     const spritesheet: Spritesheet = Assets.get("spritesheet");
     const { textures } = spritesheet;
 
@@ -33,10 +37,6 @@ export class StatusBarView extends Container {
       collectCoinIcon: textures["collect_coin_icon.png"],
     };
 
-    this.setup();
-  }
-
-  setup() {
     const coinScorePlate = new Sprite(StatusBarView.textures.coinScorePlate);
     coinScorePlate.height = 44;
     coinScorePlate.scale.x = coinScorePlate.scale.y;

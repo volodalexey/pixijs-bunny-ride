@@ -1,118 +1,116 @@
-// import { Container, Graphics, Text } from "pixi.js";
+import { Assets, Container, FederatedPointerEvent, Sprite, Spritesheet, Texture } from "pixi.js";
 
-// class ButtonBackground extends Graphics {}
-// class ButtonText extends Text {}
+export interface IconButtonOptions {
+  width?: number;
+  height?: number;
+  textureNames: { active: string; hover: string; press: string };
+  onClick?: (e: FederatedPointerEvent) => void;
+}
 
-// export class Button extends Container {
-//   background;
-//   text;
+type ButtonStateTextures = { active: Texture; hover: Texture; press: Texture };
+type ButtonStateSprites = { active: Sprite; hover: Sprite; press: Sprite };
 
-//   buttonIdleColor;
-//   buttonHoverColor;
-//   textColor;
-//   textColorHover;
-//   fontSize;
-//   onClick;
+export class IconButton extends Container {
+  textures!: ButtonStateTextures;
+  sprites!: ButtonStateSprites;
 
-//   static textOptions = {
-//     fontFamily: "Filmotype Major",
-//     fill: 0xffffff,
-//     align: "center",
-//     fontSize: 30,
-//     letterSpacing: 5,
-//   };
+  onClick!: IconButtonOptions["onClick"];
 
-//   constructor(options) {
-//     super();
-//     this.eventMode = "static";
-//     this.cursor = "pointer";
-//     this.onClick = options.onClick;
-//     this.fontSize = options.fontSize ?? 20;
-//     this.textColor = options.textColor ?? 0x000000;
-//     this.textColorHover = options.textColorHover ?? 0x000000;
-//     this.buttonIdleColor = options.buttonIdleColor ?? 0x000000;
-//     this.buttonHoverColor = options.buttonHoverColor ?? options.buttonIdleColor ?? 0x000000;
-//     this.setup(options);
-//     this.draw(options);
-//     this.updateState();
-//   }
+  constructor(options: IconButtonOptions) {
+    super();
 
-//   setup({ buttonText, buttonWidth, buttonHeight }) {
-//     const background = new ButtonBackground();
-//     this.addChild(background);
-//     this.background = background;
+    this.eventMode = "static";
+    this.cursor = "pointer";
+    this.onClick = options.onClick;
 
-//     const text = new ButtonText(buttonText, {
-//       ...Button.textOptions,
-//       fontSize: this.fontSize,
-//     });
-//     text.anchor.set(0.5, 0.5);
-//     text.position.set(buttonWidth / 2, buttonHeight / 2);
-//     this.addChild(text);
-//     this.text = text;
+    this.setup(options);
+    this.updateState();
+  }
 
-//     this.setupEventLesteners();
-//   }
+  setup({ width, height, textureNames }: IconButtonOptions) {
+    const spritesheet: Spritesheet = Assets.get("spritesheet");
+    const { textures } = spritesheet;
 
-//   setupEventLesteners() {
-//     this.on("pointertap", (e) => {
-//       this.updateState();
-//       if (typeof this.onClick === "function") {
-//         this.onClick(e);
-//       }
-//     });
-//     this.on("pointerdown", (e) => {
-//       if (e.pointerType === "touch") {
-//         this.updateState(true);
-//       }
-//     });
-//     this.on("pointerenter", (e) => {
-//       if (e.pointerType === "mouse") {
-//         this.updateState(true);
-//       }
-//     });
-//     this.on("pointerleave", (e) => {
-//       if (e.pointerType === "mouse") {
-//         this.updateState();
-//       }
-//     });
-//     this.on("pointerup", (e) => {
-//       if (e.pointerType === "touch") {
-//         this.updateState();
-//       }
-//     });
-//   }
+    this.textures = {
+      active: textures[textureNames.active],
+      hover: textures[textureNames.hover],
+      press: textures[textureNames.press],
+    };
 
-//   draw({ buttonWidth, buttonHeight, buttonRadius = 0, textPaddingTop = 0 }) {
-//     if (typeof buttonWidth !== "number") {
-//       buttonWidth = this.width;
-//     }
-//     if (typeof buttonHeight !== "number") {
-//       buttonHeight = textPaddingTop + this.text.height;
-//     }
-//     this.background.beginFill(0xffffff);
-//     this.background.drawRoundedRect(0, 0, buttonWidth, buttonHeight, buttonRadius);
-//     this.background.endFill();
-//   }
+    this.sprites = {
+      active: new Sprite(this.textures.active),
+      hover: new Sprite(this.textures.hover),
+      press: new Sprite(this.textures.press),
+    };
 
-//   color({ bgColor, txtColor }) {
-//     this.background.tint = bgColor;
-//     this.text.tint = txtColor;
-//   }
+    this.addChild(this.sprites.active);
+    this.addChild(this.sprites.hover);
+    this.addChild(this.sprites.press);
 
-//   idleColor({ bgColor = this.buttonIdleColor, txtColor = this.textColor } = {}) {
-//     this.color({ bgColor, txtColor });
-//   }
+    const isWidth = Number.isFinite(width);
+    const isHeight = Number.isFinite(height);
+    if (isWidth && isHeight) {
+      this.width = <number>width;
+      this.height = <number>height;
+    } else if (isWidth && !isHeight) {
+      this.width = <number>width;
+      this.scale.y = this.scale.x;
+    } else if (!isWidth && isHeight) {
+      this.height = <number>height;
+      this.scale.x = this.scale.y;
+    }
 
-//   hoverColor({ bgColor = this.buttonHoverColor, txtColor = this.textColorHover } = {}) {
-//     this.color({ bgColor, txtColor });
-//   }
+    this.setupEventLesteners();
+  }
 
-//   updateState(hovered = false) {
-//     if (hovered) {
-//       this.hoverColor();
-//     } else {
-//       this.idleColor();
-//     }
-//   }
-// }
+  setupEventLesteners() {
+    this.on("pointerdown", (e) => {
+      this.updateState(false, true);
+      if (typeof this.onClick === "function") {
+        this.onClick(e);
+      }
+    });
+    this.on("pointerover", () => {
+      this.updateState(true, false);
+    });
+    this.on("pointerup", () => {
+      this.updateState(false, false);
+    });
+    this.on("pointerleave", () => {
+      this.updateState(false, false);
+    });
+  }
+
+  hideAll() {
+    this.children.forEach((sprite) => {
+      sprite.visible = false;
+    });
+  }
+
+  idleState() {
+    this.hideAll();
+    this.sprites.active.visible = true;
+  }
+
+  hoverState() {
+    this.hideAll();
+    this.sprites.hover.visible = true;
+  }
+
+  pressedState() {
+    this.hideAll();
+    this.sprites.press.visible = true;
+  }
+
+  updateState(hovered = false, pressed = false) {
+    if (pressed) {
+      this.pressedState();
+    } else {
+      if (hovered) {
+        this.hoverState();
+      } else {
+        this.idleState();
+      }
+    }
+  }
+}
