@@ -1,7 +1,15 @@
-import { Text, TextStyle } from "pixi.js";
+import { Assets, Container, Sprite, Spritesheet, Text, TextStyle } from "pixi.js";
 import { ISceneResizeParams } from "../scenes/IScene";
 import { Modal, ModalOptions } from "./Modal";
-import { COLOR_BLUE, COLOR_GREEN, FONT_FAMILY, FONT_SIZE_XXL } from "../utils/constants";
+import {
+  COLOR_BLUE,
+  COLOR_GREEN,
+  COLOR_LIGHT_BLUE,
+  COLOR_LIGHT_ORANGE,
+  FONT_FAMILY,
+  FONT_SIZE_XXXL,
+  FONT_SIZE_XXXXL,
+} from "../utils/constants";
 import { IconButton } from "./Button";
 import { Resize } from "../utils/Resize";
 
@@ -11,7 +19,11 @@ export interface EndgameModalOptions extends Omit<ModalOptions, "title"> {
 
 export class EndgameModal extends Modal {
   scoreText!: Text;
+  coinsLine!: Container;
+  coinsIcon!: Sprite;
   coinsText!: Text;
+  distanceLine!: Container;
+  distanceIcon!: Sprite;
   distanceText!: Text;
   okButton!: IconButton;
   initialWidth = -1;
@@ -20,39 +32,41 @@ export class EndgameModal extends Modal {
   endgameOptions = {
     scoreGap: 10,
     coinsTopGap: 40,
-    coinsLeftGap: 40,
+    coinsLeftGap: 90,
+    coinsTextTopGap: 38,
+    coinsTextLeftGap: 300,
     disatanceTopGap: 40,
-    distanceLeftGap: 40,
+    distanceLeftGap: 70,
+    distanceTextTopGap: 60,
+    distanceTextLeftGap: 330,
     okButtonGap: 20,
     score: <
       Pick<TextStyle, "fontFamily" | "fontSize" | "fill" | "stroke" | "strokeThickness" | "letterSpacing" | "align">
     >{
       align: "center",
       fontFamily: FONT_FAMILY,
-      fontSize: FONT_SIZE_XXL * 1.1,
+      fontSize: FONT_SIZE_XXXXL,
       fill: COLOR_GREEN,
       stroke: COLOR_BLUE,
       strokeThickness: 5,
-      letterSpacing: 5,
     },
     coins: <
       Pick<TextStyle, "fontFamily" | "fontSize" | "fill" | "stroke" | "strokeThickness" | "letterSpacing" | "align">
     >{
       align: "center",
       fontFamily: FONT_FAMILY,
-      fontSize: FONT_SIZE_XXL * 1.1,
-      fill: COLOR_GREEN,
+      fontSize: FONT_SIZE_XXXL,
+      fill: COLOR_LIGHT_ORANGE,
       stroke: COLOR_BLUE,
       strokeThickness: 5,
-      letterSpacing: 5,
     },
     distance: <
       Pick<TextStyle, "fontFamily" | "fontSize" | "fill" | "stroke" | "strokeThickness" | "letterSpacing" | "align">
     >{
       align: "center",
       fontFamily: FONT_FAMILY,
-      fontSize: FONT_SIZE_XXL * 1.1,
-      fill: COLOR_GREEN,
+      fontSize: FONT_SIZE_XXXL,
+      fill: COLOR_LIGHT_BLUE,
       stroke: COLOR_BLUE,
       strokeThickness: 5,
       letterSpacing: 5,
@@ -73,19 +87,46 @@ export class EndgameModal extends Modal {
     this.addChild(scoreText);
     this.scoreText = scoreText;
 
+    const spritesheet: Spritesheet = Assets.get("spritesheet");
+    const { textures } = spritesheet;
+
+    const coinsLine = new Container();
+    this.coinsLine = coinsLine;
+
+    const coinsIcon = new Sprite(textures["collect_coin_icon.png"]);
+    coinsLine.addChild(coinsIcon);
+    this.coinsIcon = coinsIcon;
+
     const coinsText = new Text("c", {
       ...this.endgameOptions.coins,
     });
     coinsText.anchor.x = 0.5;
-    this.addChild(coinsText);
+    coinsText.anchor.y = 0.5;
+    coinsText.position.x = this.endgameOptions.coinsTextLeftGap;
+    coinsText.position.y = this.endgameOptions.coinsTextTopGap;
     this.coinsText = coinsText;
+    coinsLine.addChild(coinsText);
+
+    this.addChild(coinsLine);
+
+    const distanceLine = new Container();
+    this.distanceLine = distanceLine;
+
+    const distanceIcon = new Sprite(textures["collect_distance_icon.png"]);
+    distanceLine.addChild(distanceIcon);
+    this.distanceIcon = distanceIcon;
 
     const distanceText = new Text("d", {
       ...this.endgameOptions.distance,
     });
     distanceText.anchor.x = 0.5;
-    this.addChild(distanceText);
+    distanceText.anchor.y = 0.5;
+    distanceText.position.x = this.endgameOptions.distanceTextLeftGap;
+    distanceText.position.y = this.endgameOptions.distanceTextTopGap;
+    distanceLine.addChild(distanceText);
     this.distanceText = distanceText;
+
+    this.addChild(distanceLine);
 
     this.okButton = new IconButton({
       textureNames: {
@@ -106,12 +147,12 @@ export class EndgameModal extends Modal {
     this.scoreText.position.y =
       this.sprites.headerInfoPlate.y + this.sprites.headerInfoPlate.height + this.endgameOptions.scoreGap;
 
-    this.coinsText.position.x = middleX;
-    this.coinsText.position.y = this.scoreText.position.y + this.scoreText.height + this.endgameOptions.coinsTopGap;
+    this.coinsLine.position.x = this.endgameOptions.coinsLeftGap;
+    this.coinsLine.position.y = this.scoreText.position.y + this.scoreText.height + this.endgameOptions.coinsTopGap;
 
-    this.distanceText.position.x = middleX;
-    this.distanceText.position.y =
-      this.coinsText.position.y + this.coinsText.height + this.endgameOptions.disatanceTopGap;
+    this.distanceLine.position.x = this.endgameOptions.distanceLeftGap;
+    this.distanceLine.position.y =
+      this.coinsLine.position.y + this.coinsLine.height + this.endgameOptions.disatanceTopGap;
 
     this.okButton.position.x = middleX - this.okButton.width / 2;
     this.okButton.position.y = this.sprites.infoPlate.height - this.okButton.height - this.endgameOptions.okButtonGap;
@@ -129,5 +170,12 @@ export class EndgameModal extends Modal {
       contentWidth: this.initialWidth,
       contentHeight: this.initialHeight,
     });
+  }
+
+  assignData(success: boolean, score: number, coins: number, distance: number): void {
+    this.headerText.text = success ? "Новый рекорд:" : "Твои очки:";
+    this.scoreText.text = `${score}`;
+    this.coinsText.text = `${coins}`;
+    this.distanceText.text = `${distance} м`;
   }
 }

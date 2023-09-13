@@ -15,14 +15,14 @@ export class Game {
   #ui!: UI;
   #isEndGame = false;
   #paused = false;
-  #coinsCollected = 0;
-  #distanceTravelled = 0;
+  coinsCollected = 0;
+  distanceTravelled = 0;
 
   constructor({ pixiApp, view }: IGameOptions) {
     this.#pixiApp = pixiApp;
     this.#audio = new GameAudio();
     this.#view = view;
-    this.#ui = new UI({ pixiApp, audio: this.#audio });
+    this.#ui = new UI({ game: this, audio: this.#audio });
     this.#view.addChild(this.#ui);
 
     this.#ui.controlsBar.view.buttonPause.on("pointerdown", this.handlePause);
@@ -35,6 +35,9 @@ export class Game {
           break;
         case "Enter":
           this.endGame(true);
+          break;
+        case "Space":
+          this.handleStart();
           break;
       }
     });
@@ -63,11 +66,15 @@ export class Game {
   handleStart = () => {
     this.#isEndGame = false;
     this.#paused = false;
-    this.#ui.introModal.hideModal();
+    this.#ui.hideAllModals();
   };
 
   endGame(success: boolean) {
     this.#isEndGame = true;
     this.#ui.switchToEndgame(success);
+  }
+
+  getScore() {
+    return this.coinsCollected * 2 + this.distanceTravelled;
   }
 }

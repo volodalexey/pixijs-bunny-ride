@@ -90,6 +90,11 @@
       "folder": ""
     },
     {
+      "name": "collect_distance_icon.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/collect_distance_icon.png",
+      "folder": ""
+    },
+    {
       "name": "header_info_plate.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/header_info_plate.png",
       "folder": ""
@@ -190,6 +195,16 @@
       "folder": ""
     },
     {
+      "name": "rays.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/rays.png",
+      "folder": ""
+    },
+    {
+      "name": "star.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/star.png",
+      "folder": ""
+    },
+    {
       "name": "user_name_bar.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/user_name_bar.png",
       "folder": ""
@@ -209,8 +224,8 @@
     "exporter": "JSON (hash)",
     "fileName": "pack-result",
     "savePath": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src/assets/spritesheets",
-    "width": 2048,
-    "height": 2048,
+    "width": 5000,
+    "height": 5000,
     "fixedSize": false,
     "powerOfTwo": false,
     "padding": 1,

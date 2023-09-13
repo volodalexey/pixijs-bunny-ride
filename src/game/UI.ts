@@ -1,19 +1,21 @@
 import { Container } from "pixi.js";
 import { StatusBar } from "./StatusBar";
-import { ISceneResizeParams, PixiApp } from "../scenes/IScene";
+import { ISceneResizeParams } from "../scenes/IScene";
 import { ControlsBar } from "./ControlsBar";
 import { GameAudio } from "../utils/Audio";
 import { IntroModal } from "./IntroModal";
 import { Resize } from "../utils/Resize";
 import { LeadboardModal } from "./LeadboardModal";
 import { EndgameModal } from "./EndgameModal";
+import { Game } from "./Game";
 
 export interface UIOptions {
-  pixiApp: PixiApp;
+  game: Game;
   audio: GameAudio;
 }
 
 export class UI extends Container {
+  game: UIOptions["game"];
   audio: UIOptions["audio"];
   #statusBar!: StatusBar;
   controlsBar!: ControlsBar;
@@ -27,6 +29,7 @@ export class UI extends Container {
 
   constructor(options: UIOptions) {
     super();
+    this.game = options.game;
     this.audio = options.audio;
     this.setup(options);
   }
@@ -121,14 +124,20 @@ export class UI extends Container {
     this.playClickBtn();
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   switchToEndgame = (success: boolean) => {
     this.introModal.hideModal();
     this.leadboardModal.hideModal();
 
+    this.endgameModal.assignData(success, this.game.getScore(), this.game.coinsCollected, this.game.distanceTravelled);
     this.endgameModal.showModal();
     this.playClickBtn();
   };
+
+  hideAllModals() {
+    this.introModal.hideModal();
+    this.leadboardModal.hideModal();
+    this.endgameModal.hideModal();
+  }
 
   playClickBtn = () => {
     this.audio.playClick();
