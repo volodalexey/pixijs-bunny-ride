@@ -4,6 +4,7 @@ import { Modal, ModalOptions } from "./Modal";
 import { COLOR_BLUE, COLOR_GREEN, FONT_FAMILY, FONT_SIZE_XXL } from "../utils/constants";
 import { IconButton } from "./Button";
 import { UserNamePlate } from "./TextInputPlate";
+import { Resize } from "../utils/Resize";
 
 export interface IntroModalOptions extends Omit<ModalOptions, "title"> {
   visible?: boolean;
@@ -15,6 +16,8 @@ export class IntroModal extends Modal {
   userName!: UserNamePlate;
   leadboardButton!: IconButton;
   playButton!: IconButton;
+  initialWidth = -1;
+  initialHeight = -1;
 
   introOptions = {
     recordGap: 10,
@@ -36,7 +39,7 @@ export class IntroModal extends Modal {
   };
 
   constructor(options: IntroModalOptions) {
-    super({ ...options, title: "Твои рекорды:" });
+    super({ ...options, width: 500, title: "Твои рекорды:" });
 
     this.setupContent();
   }
@@ -105,5 +108,19 @@ export class IntroModal extends Modal {
 
     this.playButton.position.x = middleX;
     this.playButton.position.y = this.userName.position.y + this.userName.height + this.introOptions.actionsGap;
+
+    if (this.initialWidth === -1) {
+      this.initialWidth = this.width;
+    }
+    if (this.initialHeight === -1) {
+      this.initialHeight = this.height;
+    }
+    Resize.handleResize({
+      view: this,
+      availableWidth: options.viewWidth,
+      availableHeight: options.viewHeight,
+      contentWidth: this.initialWidth,
+      contentHeight: this.initialHeight,
+    });
   }
 }

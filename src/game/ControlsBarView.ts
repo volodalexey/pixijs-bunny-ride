@@ -7,8 +7,10 @@ export class ControlsBarView extends Container {
   buttonPause!: IconButton;
   buttonSoundOn!: IconButton;
   buttonSoundOff!: IconButton;
+  initialWidth = -1;
+  initialHeight = -1;
 
-  static options = {
+  options = {
     gap: 10,
   };
 
@@ -71,8 +73,9 @@ export class ControlsBarView extends Container {
     this.addChild(this.buttonPause);
   }
 
-  handleResize({ viewWidth }: ISceneResizeParams) {
-    const { gap } = ControlsBarView.options;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  handleResize(_: ISceneResizeParams) {
+    const { gap } = this.options;
 
     this.buttonFullscreen.position.x = 0;
     this.buttonFullscreen.position.y = gap;
@@ -84,6 +87,13 @@ export class ControlsBarView extends Container {
     this.buttonPause.position.x = this.buttonSoundOff.position.x + this.buttonSoundOff.width + gap;
     this.buttonPause.position.y = gap;
 
-    this.position.x = viewWidth - this.width - gap;
+    // console.log("viewWidth", viewWidth, "this.width", this.width, "gap", gap, "=", viewWidth - this.width - gap);
+
+    if (this.initialWidth === -1) {
+      this.initialWidth = this.width;
+    }
+    if (this.initialHeight === -1) {
+      this.initialHeight = this.height;
+    }
   }
 }

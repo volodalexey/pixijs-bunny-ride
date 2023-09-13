@@ -6,13 +6,15 @@ export class StatusBarView extends Container {
   coinsCollectedText!: Text;
   collectCoinIcon!: Sprite;
   coinScorePlate!: Sprite;
+  initialWidth = -1;
+  initialHeight = -1;
 
   static textures: {
     collectCoinIcon: Texture;
     coinScorePlate: Texture;
   };
 
-  static options = {
+  options = {
     gap: 10,
   };
 
@@ -59,7 +61,7 @@ export class StatusBarView extends Container {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleResize(_: ISceneResizeParams) {
-    const { gap } = StatusBarView.options;
+    const { gap } = this.options;
 
     this.collectCoinIcon.position.x = gap;
     this.collectCoinIcon.position.y = gap;
@@ -71,5 +73,12 @@ export class StatusBarView extends Container {
     this.coinsCollectedText.position.x = this.coinScorePlate.position.x + this.coinScorePlate.width / 2;
     this.coinsCollectedText.position.y =
       this.coinScorePlate.position.y + this.coinScorePlate.height / 2 + this.coinScorePlate.scale.y * 5;
+
+    if (this.initialWidth === -1) {
+      this.initialWidth = this.width;
+    }
+    if (this.initialHeight === -1) {
+      this.initialHeight = this.height;
+    }
   }
 }

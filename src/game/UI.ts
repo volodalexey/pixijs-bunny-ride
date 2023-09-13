@@ -21,14 +21,6 @@ export class UI extends Container {
 
   options = {
     gap: 10,
-    statusBarWidth: 0,
-    statusBarHeight: 0,
-    controlsBarWidth: 0,
-    controlsBarHeight: 0,
-    introModalWidth: 500,
-    introModalHeight: 0,
-    leadboardModalWidth: 500,
-    leadboardModalHeight: 0,
   };
 
   constructor(options: UIOptions) {
@@ -41,30 +33,24 @@ export class UI extends Container {
     const statusBar = new StatusBar();
     this.addChild(statusBar.view);
     this.#statusBar = statusBar;
-    this.options.statusBarWidth = statusBar.view.width;
-    this.options.statusBarHeight = statusBar.view.height;
 
     const controlsBar = new ControlsBar({
       audio,
     });
     this.addChild(controlsBar.view);
     this.controlsBar = controlsBar;
-    this.options.controlsBarWidth = controlsBar.view.width;
-    this.options.controlsBarHeight = controlsBar.view.height;
 
-    const introModal = new IntroModal({ width: this.options.introModalWidth });
+    const introModal = new IntroModal({});
     this.addChild(introModal);
     this.introModal = introModal;
     introModal.leadboardButton.on("pointerdown", this.switchToLeaderboard);
-    this.options.introModalHeight = introModal.height;
     introModal.loginButton.on("pointerdown", this.playClickBtn);
     introModal.playButton.on("pointerdown", this.playClickBtn);
 
-    const leadboardModal = new LeadboardModal({ audio, width: this.options.leadboardModalWidth, visible: false });
+    const leadboardModal = new LeadboardModal({ audio, visible: false });
     this.addChild(leadboardModal);
     this.leadboardModal = leadboardModal;
     leadboardModal.okButton.on("pointerdown", this.switchToInto);
-    this.options.leadboardModalHeight = leadboardModal.height;
     leadboardModal.prevButton.on("pointerdown", this.playClickBtn);
     leadboardModal.nextButton.on("pointerdown", this.playClickBtn);
   }
@@ -78,29 +64,36 @@ export class UI extends Container {
     this.controlsBar.handleResize(options);
     this.introModal.handleResize(options);
     this.leadboardModal.handleResize(options);
-    // Resize.handleResize({
-    //   view: this.#statusBar.view,
-    //   availableWidth: options.viewWidth,
-    //   availableHeight: options.viewHeight,
-    //   lockX: true,
-    //   lockY: true,
-    //   contentWidth: this.options.statusBarWidth + this.options.controlsBarWidth,
-    //   contentHeight: this.options.statusBarHeight,
-    // });
+
+    const totalWidth =
+      this.#statusBar.view.options.gap +
+      this.#statusBar.view.initialWidth +
+      this.controlsBar.view.options.gap * 2 +
+      this.controlsBar.view.initialWidth;
+    const statusBarFraction = this.#statusBar.view.initialWidth / totalWidth;
+    const controlsBarFraction = this.controlsBar.view.initialWidth / totalWidth;
     Resize.handleResize({
-      view: this.introModal,
-      availableWidth: options.viewWidth,
+      view: this.#statusBar.view,
+      availableWidth: statusBarFraction * options.viewWidth,
       availableHeight: options.viewHeight,
-      contentWidth: this.options.introModalWidth,
-      contentHeight: this.options.introModalHeight,
+      lockX: true,
+      lockY: true,
+      contentWidth: this.#statusBar.view.initialWidth,
+      contentHeight: this.#statusBar.view.initialHeight,
+      logName: "statusBar",
     });
     Resize.handleResize({
-      view: this.leadboardModal,
-      availableWidth: options.viewWidth,
+      view: this.controlsBar.view,
+      availableWidth: controlsBarFraction * options.viewWidth,
       availableHeight: options.viewHeight,
-      contentWidth: this.options.leadboardModalWidth,
-      contentHeight: this.options.leadboardModalHeight,
+      lockX: true,
+      lockY: true,
+      contentWidth: this.controlsBar.view.initialWidth,
+      contentHeight: this.controlsBar.view.initialHeight,
+      logName: "controlsBar",
     });
+    this.controlsBar.view.position.x =
+      options.viewWidth - this.controlsBar.view.width - this.controlsBar.view.options.gap;
   }
 
   hideIntro() {

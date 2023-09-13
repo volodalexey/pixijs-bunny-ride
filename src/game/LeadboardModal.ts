@@ -6,6 +6,7 @@ import { IconButton } from "./Button";
 import { LeadboardItem } from "../utils/api";
 import { LeadboardList } from "./LeadboardList";
 import { GameAudio } from "../utils/Audio";
+import { Resize } from "../utils/Resize";
 
 export interface LeadboardModalOptions extends Omit<ModalOptions, "title"> {
   audio: GameAudio;
@@ -29,6 +30,8 @@ export class LeadboardModal extends Modal {
   promise?: Promise<void>;
   leadboardData: LeadboardItem[] = [];
   leadboardList!: LeadboardList;
+  initialWidth = -1;
+  initialHeight = -1;
 
   leadboardOptions = {
     timeSpanGap: 10,
@@ -57,7 +60,7 @@ export class LeadboardModal extends Modal {
   };
 
   constructor(options: LeadboardModalOptions) {
-    super({ ...options, title: "Таблица рекордов:" });
+    super({ ...options, width: 500, title: "Таблица рекордов:" });
 
     this.setupContent(options);
   }
@@ -214,5 +217,19 @@ export class LeadboardModal extends Modal {
 
     this.okButton.position.x = middleX - this.okButton.width / 2;
     this.okButton.position.y = this.sprites.infoPlate.height - this.okButton.height - this.leadboardOptions.okButtonGap;
+
+    if (this.initialWidth === -1) {
+      this.initialWidth = this.width;
+    }
+    if (this.initialHeight === -1) {
+      this.initialHeight = this.height;
+    }
+    Resize.handleResize({
+      view: this,
+      availableWidth: options.viewWidth,
+      availableHeight: options.viewHeight,
+      contentWidth: this.initialWidth,
+      contentHeight: this.initialHeight,
+    });
   }
 }
