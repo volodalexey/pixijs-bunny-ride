@@ -6,6 +6,7 @@ import { GameAudio } from "../utils/Audio";
 import { IntroModal } from "./IntroModal";
 import { Resize } from "../utils/Resize";
 import { LeadboardModal } from "./LeadboardModal";
+import { EndgameModal } from "./EndgameModal";
 
 export interface UIOptions {
   pixiApp: PixiApp;
@@ -18,6 +19,7 @@ export class UI extends Container {
   controlsBar!: ControlsBar;
   introModal!: IntroModal;
   leadboardModal!: LeadboardModal;
+  endgameModal!: EndgameModal;
 
   options = {
     gap: 10,
@@ -53,6 +55,11 @@ export class UI extends Container {
     leadboardModal.okButton.on("pointerdown", this.switchToInto);
     leadboardModal.prevButton.on("pointerdown", this.playClickBtn);
     leadboardModal.nextButton.on("pointerdown", this.playClickBtn);
+
+    const endgameModal = new EndgameModal({ visible: false });
+    this.addChild(endgameModal);
+    this.endgameModal = endgameModal;
+    endgameModal.okButton.on("pointerdown", this.switchToInto);
   }
 
   setCollectedCoinsCount(count: number) {
@@ -64,6 +71,7 @@ export class UI extends Container {
     this.controlsBar.handleResize(options);
     this.introModal.handleResize(options);
     this.leadboardModal.handleResize(options);
+    this.endgameModal.handleResize(options);
 
     const totalWidth =
       this.#statusBar.view.options.gap +
@@ -96,20 +104,29 @@ export class UI extends Container {
       options.viewWidth - this.controlsBar.view.width - this.controlsBar.view.options.gap;
   }
 
-  hideIntro() {
-    this.introModal.visible = false;
-  }
-
   switchToLeaderboard = () => {
-    this.hideIntro();
-    this.leadboardModal.visible = true;
+    this.introModal.hideModal();
+    this.endgameModal.hideModal();
+
+    this.leadboardModal.showModal();
     this.leadboardModal.loadTimeSpanData();
     this.playClickBtn();
   };
 
   switchToInto = () => {
-    this.introModal.visible = true;
-    this.leadboardModal.visible = false;
+    this.leadboardModal.hideModal();
+    this.endgameModal.hideModal();
+
+    this.introModal.showModal();
+    this.playClickBtn();
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  switchToEndgame = (success: boolean) => {
+    this.introModal.hideModal();
+    this.leadboardModal.hideModal();
+
+    this.endgameModal.showModal();
     this.playClickBtn();
   };
 

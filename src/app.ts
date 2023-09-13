@@ -16,10 +16,6 @@ async function run() {
   await SceneManager.changeScene({
     newScene: gameScene,
   });
-
-  document.addEventListener("keydown", (e) => {
-    console.log(e.code);
-  });
 }
 
 function printError(err: Error) {

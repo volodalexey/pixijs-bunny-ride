@@ -15,6 +15,8 @@ export class Game {
   #ui!: UI;
   #isEndGame = false;
   #paused = false;
+  #coinsCollected = 0;
+  #distanceTravelled = 0;
 
   constructor({ pixiApp, view }: IGameOptions) {
     this.#pixiApp = pixiApp;
@@ -25,6 +27,17 @@ export class Game {
 
     this.#ui.controlsBar.view.buttonPause.on("pointerdown", this.handlePause);
     this.#ui.introModal.playButton.on("pointerdown", this.handleStart);
+
+    document.addEventListener("keydown", (e) => {
+      switch (e.code) {
+        case "Escape":
+          this.endGame(false);
+          break;
+        case "Enter":
+          this.endGame(true);
+          break;
+      }
+    });
   }
 
   handleResize(options: ISceneResizeParams) {
@@ -50,6 +63,11 @@ export class Game {
   handleStart = () => {
     this.#isEndGame = false;
     this.#paused = false;
-    this.#ui.hideIntro();
+    this.#ui.introModal.hideModal();
   };
+
+  endGame(success: boolean) {
+    this.#isEndGame = true;
+    this.#ui.switchToEndgame(success);
+  }
 }
