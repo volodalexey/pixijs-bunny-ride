@@ -28,8 +28,8 @@ export class GameScene implements IScene {
     this.game.handleResize(options);
   }
 
-  handleUpdate() {
-    this.game.handleUpdate();
+  handleUpdate(deltaMS: number) {
+    this.game.handleUpdate(deltaMS);
   }
 
   mountedHandler() {}

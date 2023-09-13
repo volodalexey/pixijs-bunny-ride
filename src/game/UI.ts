@@ -143,5 +143,7 @@ export class UI extends Container {
     this.audio.playClick();
   };
 
-  handleUpdate() {}
+  handleUpdate(deltaMS: number) {
+    this.endgameModal.handleUpdate(deltaMS);
+  }
 }

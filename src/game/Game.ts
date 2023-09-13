@@ -47,9 +47,9 @@ export class Game {
     this.#ui.handleResize(options);
   }
 
-  handleUpdate() {
+  handleUpdate(deltaMS: number) {
     this.#checkGameStatus();
-    this.#ui.handleUpdate();
+    this.#ui.handleUpdate(deltaMS);
   }
 
   #checkGameStatus() {

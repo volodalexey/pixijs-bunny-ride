@@ -12,12 +12,17 @@ import {
 } from "../utils/constants";
 import { IconButton } from "./Button";
 import { Resize } from "../utils/Resize";
+import { Rays } from "./Rays";
+import { Star, Stars } from "./Star";
 
 export interface EndgameModalOptions extends Omit<ModalOptions, "title"> {
   visible?: boolean;
 }
 
 export class EndgameModal extends Modal {
+  successDecoration!: Container;
+  rays!: Rays;
+  stars!: Stars;
   scoreText!: Text;
   coinsLine!: Container;
   coinsIcon!: Sprite;
@@ -28,6 +33,7 @@ export class EndgameModal extends Modal {
   okButton!: IconButton;
   initialWidth = -1;
   initialHeight = -1;
+  success = false;
 
   endgameOptions = {
     scoreGap: 10,
@@ -40,6 +46,8 @@ export class EndgameModal extends Modal {
     distanceTextTopGap: 60,
     distanceTextLeftGap: 330,
     okButtonGap: 20,
+    starsSideGap: 100,
+    starsCount: 4,
     score: <
       Pick<TextStyle, "fontFamily" | "fontSize" | "fill" | "stroke" | "strokeThickness" | "letterSpacing" | "align">
     >{
@@ -80,15 +88,46 @@ export class EndgameModal extends Modal {
   }
 
   setupContent() {
+    const spritesheet: Spritesheet = Assets.get("spritesheet");
+    const { textures } = spritesheet;
+
+    const successDecoration = new Container();
+
+    const rays = new Rays();
+    rays.position.set(this.sprites.infoPlate.width / 2, this.sprites.infoPlate.height / 2);
+    successDecoration.addChild(rays);
+    this.rays = rays;
+
+    const stars = new Stars();
+    successDecoration.addChild(stars);
+    this.stars = stars;
+
+    Array(this.endgameOptions.starsCount)
+      .fill(false)
+      .forEach((_, idx, all) => {
+        const starLeft = new Star();
+        const starRight = new Star();
+        const relation = idx / (all.length - 1);
+        starLeft.position.y = starRight.position.y = this.sprites.infoPlate.height * relation;
+        starLeft.position.x =
+          -this.endgameOptions.starsSideGap - this.endgameOptions.starsSideGap * (1 - Math.abs(relation - 0.5) * 2);
+        starRight.position.x =
+          this.sprites.infoPlate.width +
+          +this.endgameOptions.starsSideGap +
+          this.endgameOptions.starsSideGap * (1 - Math.abs(relation - 0.5) * 2);
+        stars.addChild(starLeft);
+        stars.addChild(starRight);
+      });
+
+    this.addChildAt(successDecoration, 0);
+    this.successDecoration = successDecoration;
+
     const scoreText = new Text("s", {
       ...this.endgameOptions.score,
     });
     scoreText.anchor.x = 0.5;
     this.addChild(scoreText);
     this.scoreText = scoreText;
-
-    const spritesheet: Spritesheet = Assets.get("spritesheet");
-    const { textures } = spritesheet;
 
     const coinsLine = new Container();
     this.coinsLine = coinsLine;
@@ -157,6 +196,8 @@ export class EndgameModal extends Modal {
     this.okButton.position.x = middleX - this.okButton.width / 2;
     this.okButton.position.y = this.sprites.infoPlate.height - this.okButton.height - this.endgameOptions.okButtonGap;
 
+    const initialVisible = this.successDecoration.visible;
+    this.successDecoration.visible = false;
     if (this.initialWidth === -1) {
       this.initialWidth = this.width;
     }
@@ -170,12 +211,22 @@ export class EndgameModal extends Modal {
       contentWidth: this.initialWidth,
       contentHeight: this.initialHeight,
     });
+    this.successDecoration.visible = initialVisible;
   }
 
   assignData(success: boolean, score: number, coins: number, distance: number): void {
+    this.success = success;
+    this.successDecoration.visible = success;
     this.headerText.text = success ? "Новый рекорд:" : "Твои очки:";
     this.scoreText.text = `${score}`;
     this.coinsText.text = `${coins}`;
     this.distanceText.text = `${distance} м`;
+  }
+
+  handleUpdate(deltaMS: number) {
+    if (this.visible && this.success) {
+      this.rays.handleUpdate(deltaMS);
+      this.stars.handleUpdate(deltaMS);
+    }
   }
 }
