@@ -71,6 +71,7 @@ module.exports = {
       patterns: [
         { from: "src/assets/fonts/**", to: "assets/fonts/[name][ext]" },
         { from: "src/assets/spritesheets/**", to: "assets/spritesheets/[name][ext]" },
+        { from: "src/assets/leaderboard/**", to: "assets/leaderboard/[name][ext]" },
       ],
     }),
   ],

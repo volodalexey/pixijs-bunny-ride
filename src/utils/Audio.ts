@@ -1,8 +1,9 @@
 import { Howl } from "howler";
 import buttonPressAudio from "../assets/audio/button_press.mp3";
 import musicAudio from "../assets/audio/music.mp3";
+import listShowAudio from "../assets/audio/list_show.mp3";
 
-type SoundName = "button-press" | "music";
+type SoundName = "button-press" | "music" | "list-show";
 
 export class GameAudio {
   buttonPress = new Howl({
@@ -15,12 +16,19 @@ export class GameAudio {
     volume: 0.5,
   });
 
+  listShow = new Howl({
+    src: listShowAudio,
+    volume: 0.5,
+  });
+
   getSounds(name: SoundName): Howl[] {
     switch (name) {
       case "button-press":
         return [this.buttonPress];
       case "music":
         return [this.music];
+      case "list-show":
+        return [this.listShow];
     }
     return [];
   }
@@ -55,5 +63,9 @@ export class GameAudio {
 
   stopMusic(): void {
     this.stop(["music"]);
+  }
+
+  playListShow(): void {
+    this.play({ name: "list-show", stop: [] });
   }
 }

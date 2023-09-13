@@ -3,7 +3,7 @@ import { ISceneResizeParams } from "../scenes/IScene";
 import { Modal, ModalOptions } from "./Modal";
 import { COLOR_BLUE, COLOR_GREEN, FONT_FAMILY, FONT_SIZE_XXL } from "../utils/constants";
 import { IconButton } from "./Button";
-import { TextInput } from "./TextInput";
+import { UserNamePlate } from "./TextInputPlate";
 
 export interface IntroModalOptions extends Omit<ModalOptions, "title"> {
   visible?: boolean;
@@ -12,7 +12,7 @@ export interface IntroModalOptions extends Omit<ModalOptions, "title"> {
 export class IntroModal extends Modal {
   recordText!: Text;
   loginButton!: IconButton;
-  userName!: TextInput;
+  userName!: UserNamePlate;
   leadboardButton!: IconButton;
   playButton!: IconButton;
 
@@ -62,10 +62,7 @@ export class IntroModal extends Modal {
     });
     this.addChild(this.loginButton);
 
-    this.userName = new TextInput({
-      textureName: "user_name_bar.png",
-      text: "Test username",
-    });
+    this.userName = new UserNamePlate();
     this.addChild(this.userName);
 
     this.leadboardButton = new IconButton({
@@ -100,7 +97,6 @@ export class IntroModal extends Modal {
     this.loginButton.position.y =
       this.recordText.position.y + this.recordText.height + this.introOptions.loginButtonGap;
 
-    this.userName.handleResize(options);
     this.userName.position.x = middleX - this.userName.width / 2;
     this.userName.position.y = this.loginButton.position.y + this.loginButton.height + this.introOptions.userNameGap;
 

@@ -13,11 +13,11 @@ export interface UIOptions {
 }
 
 export class UI extends Container {
+  audio: UIOptions["audio"];
   #statusBar!: StatusBar;
   controlsBar!: ControlsBar;
   introModal!: IntroModal;
   leadboardModal!: LeadboardModal;
-  #aspectRatio = 9 / 16;
 
   options = {
     gap: 10,
@@ -33,6 +33,7 @@ export class UI extends Container {
 
   constructor(options: UIOptions) {
     super();
+    this.audio = options.audio;
     this.setup(options);
   }
 
@@ -56,12 +57,16 @@ export class UI extends Container {
     this.introModal = introModal;
     introModal.leadboardButton.on("pointerdown", this.switchToLeaderboard);
     this.options.introModalHeight = introModal.height;
+    introModal.loginButton.on("pointerdown", this.playClickBtn);
+    introModal.playButton.on("pointerdown", this.playClickBtn);
 
-    const leadboardModal = new LeadboardModal({ width: this.options.leadboardModalWidth, visible: false });
+    const leadboardModal = new LeadboardModal({ audio, width: this.options.leadboardModalWidth, visible: false });
     this.addChild(leadboardModal);
     this.leadboardModal = leadboardModal;
     leadboardModal.okButton.on("pointerdown", this.switchToInto);
     this.options.leadboardModalHeight = leadboardModal.height;
+    leadboardModal.prevButton.on("pointerdown", this.playClickBtn);
+    leadboardModal.nextButton.on("pointerdown", this.playClickBtn);
   }
 
   setCollectedCoinsCount(count: number) {
@@ -105,11 +110,18 @@ export class UI extends Container {
   switchToLeaderboard = () => {
     this.hideIntro();
     this.leadboardModal.visible = true;
+    this.leadboardModal.loadTimeSpanData();
+    this.playClickBtn();
   };
 
   switchToInto = () => {
     this.introModal.visible = true;
     this.leadboardModal.visible = false;
+    this.playClickBtn();
+  };
+
+  playClickBtn = () => {
+    this.audio.playClick();
   };
 
   handleUpdate() {}

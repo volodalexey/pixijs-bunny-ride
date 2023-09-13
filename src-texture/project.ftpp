@@ -5,6 +5,21 @@
   "savePath": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src/assets/spritesheets",
   "images": [
     {
+      "name": "arrow_btn_active.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/arrow_btn_active.png",
+      "folder": ""
+    },
+    {
+      "name": "arrow_btn_hover.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/arrow_btn_hover.png",
+      "folder": ""
+    },
+    {
+      "name": "arrow_btn_press.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/arrow_btn_press.png",
+      "folder": ""
+    },
+    {
       "name": "btn_fullscreen_active.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/btn_fullscreen_active.png",
       "folder": ""
@@ -80,6 +95,11 @@
       "folder": ""
     },
     {
+      "name": "highleader_scores_plate.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/highleader_scores_plate.png",
+      "folder": ""
+    },
+    {
       "name": "info_plate_big.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/info_plate_big.png",
       "folder": ""
@@ -115,6 +135,16 @@
       "folder": ""
     },
     {
+      "name": "midleader_name_plate.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/midleader_name_plate.png",
+      "folder": ""
+    },
+    {
+      "name": "midleader_scores_plate.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/midleader_scores_plate.png",
+      "folder": ""
+    },
+    {
       "name": "ok_button_active.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/ok_button_active.png",
       "folder": ""
@@ -127,6 +157,21 @@
     {
       "name": "ok_button_press.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/ok_button_press.png",
+      "folder": ""
+    },
+    {
+      "name": "place_1.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/place_1.png",
+      "folder": ""
+    },
+    {
+      "name": "place_2.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/place_2.png",
+      "folder": ""
+    },
+    {
+      "name": "place_3.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/place_3.png",
       "folder": ""
     },
     {

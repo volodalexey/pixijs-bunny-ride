@@ -8,6 +8,7 @@ export interface IconButtonOptions {
   height?: number;
   textureNames: { active: string; hover: string; press: string };
   onClick?: (e: FederatedPointerEvent) => void;
+  flip?: boolean;
 }
 
 type ButtonStateTextures = { active: Texture; hover: Texture; press: Texture };
@@ -37,7 +38,7 @@ export class IconButton extends Container {
     this.updateState(false, this.pressed);
   }
 
-  setup({ width, height, textureNames }: IconButtonOptions) {
+  setup({ width, height, textureNames, flip }: IconButtonOptions) {
     const spritesheet: Spritesheet = Assets.get("spritesheet");
     const { textures } = spritesheet;
 
@@ -52,6 +53,13 @@ export class IconButton extends Container {
       hover: new Sprite(this.textures.hover),
       press: new Sprite(this.textures.press),
     };
+
+    if (flip) {
+      Object.values(this.sprites).forEach((sprite) => {
+        sprite.anchor.set(1, 0);
+        sprite.scale.x = -1;
+      });
+    }
 
     this.addChild(this.sprites.active);
     this.addChild(this.sprites.hover);
