@@ -69,6 +69,8 @@ export class Jumping extends HeroState {
     const { hero } = this.game;
     if (hero.isFalling()) {
       hero.setState(EHeroState.FALLING);
+    } else if (hero.isOnGround()) {
+      hero.setState(EHeroState.RUNNING);
     }
   }
 }

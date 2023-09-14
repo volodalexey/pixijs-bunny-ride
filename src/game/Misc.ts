@@ -102,8 +102,6 @@ export class MiscLayer extends Container {
 
     this.stoppers = new Container<Stopper>();
     this.addChild(this.stoppers);
-
-    this.seed();
   }
 
   seed() {
@@ -123,11 +121,11 @@ export class MiscLayer extends Container {
     });
   }
 
-  handleUpdate(deltaMS: number) {
+  checkSpawnTrees(deltaMS: number) {
     if (this.treeSpawnTime > this.options.treeSpawnAt) {
       if (Math.random() > this.options.treeSpawnChance) {
         const tree = new Tree({ game: this.game });
-        tree.position.x = SceneManager.width + this.width;
+        tree.position.x = SceneManager.width + tree.width;
         tree.position.y = SceneManager.height - this.game.options.groundMargin - tree.height;
         this.cloudsOrTrees.addChild(tree);
       }
@@ -135,10 +133,13 @@ export class MiscLayer extends Container {
     } else {
       this.treeSpawnTime += deltaMS;
     }
+  }
+
+  checkSpawnClouds(deltaMS: number) {
     if (this.cloudSpawnTime > this.options.cloudSpawnAt) {
       if (Math.random() > this.options.cloudSpawnChance) {
         const cloud = new Cloud({ game: this.game });
-        cloud.position.x = SceneManager.width + this.width;
+        cloud.position.x = SceneManager.width + cloud.width;
         cloud.position.y =
           cloud.height +
           Math.random() * (SceneManager.height - this.game.options.groundMargin - this.options.cloudSpawnGapY);
@@ -148,6 +149,31 @@ export class MiscLayer extends Container {
     } else {
       this.cloudSpawnTime += deltaMS;
     }
+  }
+
+  checkSpawnCoins(deltaMS: number) {
+    if (this.coinSpawnTime > this.options.coinSpawnAt) {
+      if (Math.random() > this.options.coinSpawnChance) {
+        const coin = new Coin({ game: this.game });
+        coin.position.x = SceneManager.width + coin.width;
+        coin.position.y =
+          SceneManager.height -
+          this.game.options.groundMargin -
+          coin.height -
+          Math.random() * this.options.coinSpawnRange;
+        this.coins.addChild(coin);
+      }
+      this.coinSpawnTime = 0;
+    } else {
+      this.coinSpawnTime += deltaMS;
+    }
+  }
+
+  handleUpdate(deltaMS: number) {
+    this.checkSpawnTrees(deltaMS);
+    this.checkSpawnClouds(deltaMS);
+    this.checkSpawnCoins(deltaMS);
+
     this.cloudsOrTrees.children.forEach((cloudOrTree) => {
       cloudOrTree.handleUpdate(deltaMS);
     });
@@ -170,5 +196,18 @@ export class MiscLayer extends Container {
         i--;
       }
     }
+  }
+
+  restart() {
+    while (this.cloudsOrTrees.children[0] != null) {
+      this.cloudsOrTrees.children[0].removeFromParent();
+    }
+    while (this.coins.children[0] != null) {
+      this.coins.children[0].removeFromParent();
+    }
+    while (this.stoppers.children[0] != null) {
+      this.stoppers.children[0].removeFromParent();
+    }
+    this.seed();
   }
 }

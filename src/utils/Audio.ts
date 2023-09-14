@@ -5,8 +5,9 @@ import listShowAudio from "../assets/audio/list_show.mp3";
 import snowAudio from "../assets/audio/snow.mp3";
 import jumpAudio from "../assets/audio/jumper.mp3";
 import gameEndAudio from "../assets/audio/game_end.mp3";
+import coinAudio from "../assets/audio/coin.mp3";
 
-type SoundName = "button-press" | "music" | "list-show" | "snow" | "jump" | "game-end";
+type SoundName = "button-press" | "music" | "list-show" | "snow" | "jump" | "game-end" | "coin";
 
 export class GameAudio {
   muted = true;
@@ -17,6 +18,7 @@ export class GameAudio {
 
   music = new Howl({
     src: musicAudio,
+    loop: true,
     volume: 0.5,
   });
 
@@ -40,6 +42,10 @@ export class GameAudio {
     src: gameEndAudio,
   });
 
+  coin = new Howl({
+    src: coinAudio,
+  });
+
   getSounds(name: SoundName): Howl[] {
     switch (name) {
       case "button-press":
@@ -54,6 +60,8 @@ export class GameAudio {
         return [this.jump];
       case "game-end":
         return [this.gameEnd];
+      case "coin":
+        return [this.coin];
     }
     return [];
   }
@@ -123,6 +131,10 @@ export class GameAudio {
   }
 
   playGameEnd() {
-    this.play({ name: "game-end", stop: ["jump", "snow"] });
+    this.play({ name: "game-end", stop: ["jump", "snow", "coin"] });
+  }
+
+  playCoin() {
+    this.play({ name: "coin" });
   }
 }

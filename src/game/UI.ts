@@ -17,7 +17,7 @@ export interface UIOptions {
 export class UI extends Container {
   game: UIOptions["game"];
   audio: UIOptions["audio"];
-  #statusBar!: StatusBar;
+  statusBar!: StatusBar;
   controlsBar!: ControlsBar;
   introModal!: IntroModal;
   leadboardModal!: LeadboardModal;
@@ -37,7 +37,7 @@ export class UI extends Container {
   setup({ audio }: UIOptions) {
     const statusBar = new StatusBar();
     this.addChild(statusBar.view);
-    this.#statusBar = statusBar;
+    this.statusBar = statusBar;
 
     const controlsBar = new ControlsBar({
       audio,
@@ -45,7 +45,7 @@ export class UI extends Container {
     this.addChild(controlsBar.view);
     this.controlsBar = controlsBar;
 
-    const introModal = new IntroModal({});
+    const introModal = new IntroModal({ game: this.game });
     this.addChild(introModal);
     this.introModal = introModal;
     introModal.leadboardButton.on("pointerdown", this.switchToLeaderboard);
@@ -66,31 +66,31 @@ export class UI extends Container {
   }
 
   setCollectedCoinsCount(count: number) {
-    this.#statusBar.setCollectedCoinsCount(count);
+    this.statusBar.setCollectedCoinsCount(count);
   }
 
   handleResize(options: ISceneResizeParams) {
-    this.#statusBar.handleResize(options);
+    this.statusBar.handleResize(options);
     this.controlsBar.handleResize(options);
     this.introModal.handleResize(options);
     this.leadboardModal.handleResize(options);
     this.endgameModal.handleResize(options);
 
     const totalWidth =
-      this.#statusBar.view.options.gap +
-      this.#statusBar.view.initialWidth +
+      this.statusBar.view.options.gap +
+      this.statusBar.view.initialWidth +
       this.controlsBar.view.options.gap * 2 +
       this.controlsBar.view.initialWidth;
-    const statusBarFraction = this.#statusBar.view.initialWidth / totalWidth;
+    const statusBarFraction = this.statusBar.view.initialWidth / totalWidth;
     const controlsBarFraction = this.controlsBar.view.initialWidth / totalWidth;
     Resize.handleResize({
-      view: this.#statusBar.view,
+      view: this.statusBar.view,
       availableWidth: statusBarFraction * options.viewWidth,
       availableHeight: options.viewHeight,
       lockX: true,
       lockY: true,
-      contentWidth: this.#statusBar.view.initialWidth,
-      contentHeight: this.#statusBar.view.initialHeight,
+      contentWidth: this.statusBar.view.initialWidth,
+      contentHeight: this.statusBar.view.initialHeight,
       logName: "statusBar",
     });
     Resize.handleResize({
@@ -129,15 +129,23 @@ export class UI extends Container {
     this.introModal.hideModal();
     this.leadboardModal.hideModal();
 
-    this.endgameModal.assignData(success, this.game.getScore(), this.game.coinsCollected, this.game.distanceTravelled);
+    this.endgameModal.assignData(
+      success,
+      this.game.getScore(),
+      this.game.coinsCollected,
+      this.game.getDistanceTravelled(),
+    );
     this.endgameModal.showModal();
     this.playClickBtn();
   };
 
-  hideAllModals() {
+  restart() {
     this.introModal.hideModal();
     this.leadboardModal.hideModal();
     this.endgameModal.hideModal();
+    this.statusBar.view.coinsCollectedText.text = "0";
+    this.controlsBar.view.buttonPause.externalPressed = false;
+    this.controlsBar.view.buttonPause.updateState();
   }
 
   playClickBtn = () => {

@@ -5,12 +5,15 @@ import { COLOR_BLUE, COLOR_GREEN, FONT_FAMILY, FONT_SIZE_XXL } from "../utils/co
 import { IconButton } from "./Button";
 import { UserNamePlate } from "./TextInputPlate";
 import { Resize } from "../utils/Resize";
+import { Game } from "./Game";
 
 export interface IntroModalOptions extends Omit<ModalOptions, "title"> {
+  game: Game;
   visible?: boolean;
 }
 
 export class IntroModal extends Modal {
+  game!: IntroModalOptions["game"];
   recordText!: Text;
   loginButton!: IconButton;
   userName!: UserNamePlate;
@@ -41,11 +44,12 @@ export class IntroModal extends Modal {
   constructor(options: IntroModalOptions) {
     super({ ...options, width: 500, title: "Твои рекорды:" });
 
+    this.game = options.game;
     this.setupContent();
   }
 
-  getRecordText(coinsCollected = 0) {
-    return `Рекорд:\n${coinsCollected}`;
+  getRecordText() {
+    return `Рекорд:\n${this.game.loadScore()}`;
   }
 
   setupContent() {
@@ -65,7 +69,7 @@ export class IntroModal extends Modal {
     });
     this.addChild(this.loginButton);
 
-    this.userName = new UserNamePlate();
+    this.userName = new UserNamePlate(this.game.username);
     this.addChild(this.userName);
 
     this.leadboardButton = new IconButton({

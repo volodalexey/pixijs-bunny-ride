@@ -28,6 +28,10 @@ class TilingLayer extends TilingSprite {
   handleUpdate(deltaMS: number): void {
     this.tilePosition.x -= this.game.speed * this.speedModifier * deltaMS;
   }
+
+  restart() {
+    this.tilePosition.x = 0;
+  }
 }
 
 class SkyLayer extends Container {
@@ -128,5 +132,9 @@ export class Background extends Container {
     this.rocksLayer.width = viewWidth;
     this.rocksLayer.position.y =
       viewHeight - this.game.options.groundMargin - this.rocksLayer.height + this.options.rocksYAdd;
+  }
+
+  restart() {
+    this.miscLayer.restart();
   }
 }

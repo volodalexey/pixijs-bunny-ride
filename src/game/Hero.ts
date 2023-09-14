@@ -200,6 +200,22 @@ export class Hero extends Container {
 
   checkCollision(): void {
     const heroBounds = this.getCollisionBounds();
+    this.game.background.miscLayer.coins.children.forEach((coin) => {
+      if (coin.readyForDelete) {
+        return;
+      }
+      const coinBounds = coin.getBounds();
+      if (
+        coinBounds.x < heroBounds.x + heroBounds.width &&
+        coinBounds.x + coinBounds.width > heroBounds.x &&
+        coinBounds.y < heroBounds.y + heroBounds.height &&
+        coinBounds.y + coinBounds.height > heroBounds.y
+      ) {
+        coin.readyForDelete = true;
+        this.game.collectCoin();
+        this.audio.playCoin();
+      }
+    });
     this.game.background.miscLayer.stoppers.children.forEach((stopper) => {
       const stopperBounds = stopper.getBounds();
       if (

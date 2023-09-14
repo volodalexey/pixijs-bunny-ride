@@ -27,6 +27,7 @@ export class Game {
   options = {
     groundMargin: 82,
   };
+  username = "Test username";
 
   constructor({ view }: IGameOptions) {
     this.#audio = new GameAudio();
@@ -72,6 +73,7 @@ export class Game {
     if (!this.#paused && !this.#ended) {
       this.background.handleUpdate(deltaMS);
       this.hero.handleUpdate(deltaMS);
+      this.distanceTravelled += deltaMS * 0.01;
     }
   }
 
@@ -89,9 +91,13 @@ export class Game {
 
   handleStart = () => {
     if (this.#ended && this.#ui.introModal.visible) {
+      this.distanceTravelled = 0;
+      this.coinsCollected = 0;
       this.#ended = false;
       this.#paused = false;
-      this.#ui.hideAllModals();
+      this.#ui.restart();
+      this.hero.restart();
+      this.background.restart();
     }
   };
 
@@ -101,11 +107,29 @@ export class Game {
   }
 
   checkEndGame() {
-    this.endGame(true);
+    const lastScore = this.loadScore();
+    const score = this.getScore();
+    const success = score > lastScore;
+    if (success) {
+      this.saveScore();
+    }
+    this.endGame(success);
+  }
+
+  getDistanceTravelled() {
+    return Math.round(this.distanceTravelled);
+  }
+
+  loadScore() {
+    return Number(localStorage.getItem(this.username)) ?? 0;
+  }
+
+  saveScore() {
+    localStorage.setItem(this.username, String(this.getScore()));
   }
 
   getScore() {
-    return this.coinsCollected * 2 + this.distanceTravelled;
+    return this.coinsCollected * 2 + this.getDistanceTravelled();
   }
 
   getLevelBottom(height: number): number {
@@ -114,5 +138,10 @@ export class Game {
 
   getLevelRight(width: number): number {
     return SceneManager.width - width;
+  }
+
+  collectCoin() {
+    this.coinsCollected++;
+    this.#ui.statusBar.view.coinsCollectedText.text = this.coinsCollected;
   }
 }

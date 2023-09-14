@@ -65,10 +65,10 @@ export class TextInputPlate extends Container {
 }
 
 export class UserNamePlate extends TextInputPlate {
-  constructor() {
+  constructor(username: string) {
     super({
       textureName: "user_name_bar.png",
-      text: "Test username",
+      text: username,
       gapLeft: 40,
       gapTop: 20,
     });
