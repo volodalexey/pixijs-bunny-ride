@@ -38,10 +38,11 @@ export class ControlsBar {
 
     this.#view.buttonSoundOn.on("pointerdown", () => {
       this.audio.stopMusic();
-      this.audio.playClick();
+      this.audio.muted = true;
     });
 
     this.#view.buttonSoundOff.on("pointerdown", () => {
+      this.audio.muted = false;
       this.audio.playMusic();
       this.audio.playClick();
     });

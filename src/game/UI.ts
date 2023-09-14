@@ -125,6 +125,7 @@ export class UI extends Container {
   };
 
   switchToEndgame = (success: boolean) => {
+    this.audio.playGameEnd();
     this.introModal.hideModal();
     this.leadboardModal.hideModal();
 

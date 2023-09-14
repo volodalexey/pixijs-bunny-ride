@@ -3,6 +3,9 @@ import { UI } from "./UI";
 import { ISceneResizeParams, PixiApp } from "../scenes/IScene";
 import { GameAudio } from "../utils/Audio";
 import { Background } from "./Background";
+import { Hero } from "./Hero";
+import { InputHandler } from "./InputHandler";
+import { SceneManager } from "../scenes/SceneManager";
 
 export interface IGameOptions {
   pixiApp: PixiApp;
@@ -19,6 +22,8 @@ export class Game {
   coinsCollected = 0;
   distanceTravelled = 0;
   background!: Background;
+  hero!: Hero;
+  inputHandler!: InputHandler;
   options = {
     groundMargin: 82,
   };
@@ -29,6 +34,11 @@ export class Game {
 
     this.background = new Background({ game: this });
     this.#view.addChild(this.background);
+
+    this.hero = new Hero({ game: this, audio: this.#audio });
+    this.#view.addChild(this.hero);
+
+    this.inputHandler = new InputHandler({ eventTarget: this.#view, relativeToTarget: this.hero });
 
     this.#ui = new UI({ game: this, audio: this.#audio });
     this.#view.addChild(this.#ui);
@@ -61,6 +71,7 @@ export class Game {
     this.#ui.handleUpdate(deltaMS);
     if (!this.#paused && !this.#ended) {
       this.background.handleUpdate(deltaMS);
+      this.hero.handleUpdate(deltaMS);
     }
   }
 
@@ -71,14 +82,17 @@ export class Game {
   }
 
   handlePause = () => {
+    this.#audio.stopSnow();
     this.#paused = !this.#paused;
     this.#ui.controlsBar.view.buttonPause.externalPressed = this.#paused;
   };
 
   handleStart = () => {
-    this.#ended = false;
-    this.#paused = false;
-    this.#ui.hideAllModals();
+    if (this.#ended && this.#ui.introModal.visible) {
+      this.#ended = false;
+      this.#paused = false;
+      this.#ui.hideAllModals();
+    }
   };
 
   endGame(success: boolean) {
@@ -86,7 +100,19 @@ export class Game {
     this.#ui.switchToEndgame(success);
   }
 
+  checkEndGame() {
+    this.endGame(true);
+  }
+
   getScore() {
     return this.coinsCollected * 2 + this.distanceTravelled;
+  }
+
+  getLevelBottom(height: number): number {
+    return SceneManager.height - height - this.options.groundMargin;
+  }
+
+  getLevelRight(width: number): number {
+    return SceneManager.width - width;
   }
 }

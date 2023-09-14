@@ -2,10 +2,14 @@ import { Howl } from "howler";
 import buttonPressAudio from "../assets/audio/button_press.mp3";
 import musicAudio from "../assets/audio/music.mp3";
 import listShowAudio from "../assets/audio/list_show.mp3";
+import snowAudio from "../assets/audio/snow.mp3";
+import jumpAudio from "../assets/audio/jumper.mp3";
+import gameEndAudio from "../assets/audio/game_end.mp3";
 
-type SoundName = "button-press" | "music" | "list-show";
+type SoundName = "button-press" | "music" | "list-show" | "snow" | "jump" | "game-end";
 
 export class GameAudio {
+  muted = true;
   buttonPress = new Howl({
     src: buttonPressAudio,
     volume: 0.5,
@@ -21,6 +25,21 @@ export class GameAudio {
     volume: 0.5,
   });
 
+  snow = new Howl({
+    src: snowAudio,
+    loop: true,
+    volume: 0.5,
+  });
+
+  jump = new Howl({
+    src: jumpAudio,
+    volume: 0.5,
+  });
+
+  gameEnd = new Howl({
+    src: gameEndAudio,
+  });
+
   getSounds(name: SoundName): Howl[] {
     switch (name) {
       case "button-press":
@@ -29,6 +48,12 @@ export class GameAudio {
         return [this.music];
       case "list-show":
         return [this.listShow];
+      case "snow":
+        return [this.snow];
+      case "jump":
+        return [this.jump];
+      case "game-end":
+        return [this.gameEnd];
     }
     return [];
   }
@@ -41,7 +66,20 @@ export class GameAudio {
       });
   }
 
-  private play({ name, volume, stop = [] }: { name: SoundName; volume?: number; stop?: SoundName[] }): void {
+  private play({
+    name,
+    keep,
+    volume,
+    stop = [],
+  }: {
+    name: SoundName;
+    keep?: boolean;
+    volume?: number;
+    stop?: SoundName[];
+  }) {
+    if (this.muted) {
+      return;
+    }
     const sounds = this.getSounds(name);
     if (sounds.length > 0) {
       this.stop(stop);
@@ -49,23 +87,42 @@ export class GameAudio {
       if (volume != null && volume >= 0 && volume <= 1) {
         sound.volume(volume);
       }
+      if (keep && sound.playing()) {
+        return;
+      }
       sound.play();
     }
   }
 
-  playClick(): void {
-    this.play({ name: "button-press", stop: [] });
+  playClick() {
+    this.play({ name: "button-press" });
   }
 
-  playMusic(): void {
-    this.play({ name: "music", stop: [] });
+  playMusic() {
+    this.play({ name: "music" });
   }
 
-  stopMusic(): void {
+  stopMusic() {
     this.stop(["music"]);
   }
 
-  playListShow(): void {
-    this.play({ name: "list-show", stop: [] });
+  playListShow() {
+    this.play({ name: "list-show" });
+  }
+
+  playJump() {
+    this.play({ name: "jump" });
+  }
+
+  playSnow() {
+    this.play({ name: "snow", keep: true });
+  }
+
+  stopSnow() {
+    this.stop(["snow"]);
+  }
+
+  playGameEnd() {
+    this.play({ name: "game-end", stop: ["jump", "snow"] });
   }
 }
