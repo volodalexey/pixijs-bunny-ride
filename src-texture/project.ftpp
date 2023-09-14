@@ -5,6 +5,11 @@
   "savePath": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src/assets/spritesheets",
   "images": [
     {
+      "name": "airship.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/airship.png",
+      "folder": ""
+    },
+    {
       "name": "arrow_btn_active.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/arrow_btn_active.png",
       "folder": ""
@@ -17,6 +22,16 @@
     {
       "name": "arrow_btn_press.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/arrow_btn_press.png",
+      "folder": ""
+    },
+    {
+      "name": "back_rocks.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/back_rocks.png",
+      "folder": ""
+    },
+    {
+      "name": "bg_sun.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/bg_sun.png",
       "folder": ""
     },
     {
@@ -80,6 +95,21 @@
       "folder": ""
     },
     {
+      "name": "cloud_1.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/cloud_1.png",
+      "folder": ""
+    },
+    {
+      "name": "cloud_2.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/cloud_2.png",
+      "folder": ""
+    },
+    {
+      "name": "coin.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/coin.png",
+      "folder": ""
+    },
+    {
       "name": "coin_score_plate.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/coin_score_plate.png",
       "folder": ""
@@ -92,6 +122,11 @@
     {
       "name": "collect_distance_icon.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/collect_distance_icon.png",
+      "folder": ""
+    },
+    {
+      "name": "floor.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/floor.png",
       "folder": ""
     },
     {
@@ -137,6 +172,11 @@
     {
       "name": "login_button_press.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/login_button_press.png",
+      "folder": ""
+    },
+    {
+      "name": "mi_bunny_idle_03.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/mi_bunny_idle_03.png",
       "folder": ""
     },
     {
@@ -202,6 +242,21 @@
     {
       "name": "star.png",
       "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/star.png",
+      "folder": ""
+    },
+    {
+      "name": "stopper_idle.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/stopper_idle.png",
+      "folder": ""
+    },
+    {
+      "name": "tree_1.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/tree_1.png",
+      "folder": ""
+    },
+    {
+      "name": "tree_2.png",
+      "path": "/mnt/mystorage/js_projects/pixijs-bunny-ride/src-texture/tree_2.png",
       "folder": ""
     },
     {
