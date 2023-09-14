@@ -156,7 +156,9 @@ export class Hero extends Container {
   }
 
   handleUpdate(deltaMS: number): void {
-    this.checkCollision();
+    if (this.checkCollision()) {
+      return;
+    }
     this.currentState.handleInput();
 
     const { inputHandler } = this.game;
@@ -198,7 +200,7 @@ export class Hero extends Container {
     this.setState(EHeroState.STANDING);
   }
 
-  checkCollision(): void {
+  checkCollision(): boolean {
     const heroBounds = this.getCollisionBounds();
     this.game.background.miscLayer.coins.children.forEach((coin) => {
       if (coin.readyForDelete) {
@@ -216,7 +218,7 @@ export class Hero extends Container {
         this.audio.playCoin();
       }
     });
-    this.game.background.miscLayer.stoppers.children.forEach((stopper) => {
+    return this.game.background.miscLayer.stoppers.children.some((stopper) => {
       const stopperBounds = stopper.getBounds();
       if (
         stopperBounds.x < heroBounds.x + heroBounds.width &&
@@ -224,7 +226,9 @@ export class Hero extends Container {
         stopperBounds.y < heroBounds.y + heroBounds.height &&
         stopperBounds.y + stopperBounds.height > heroBounds.y
       ) {
-        this.game.checkEndGame();
+        this.audio.playBarrier();
+        this.game.endGameWithCheck();
+        return true;
       }
     });
   }

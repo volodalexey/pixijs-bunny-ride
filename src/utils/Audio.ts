@@ -6,8 +6,9 @@ import snowAudio from "../assets/audio/snow.mp3";
 import jumpAudio from "../assets/audio/jumper.mp3";
 import gameEndAudio from "../assets/audio/game_end.mp3";
 import coinAudio from "../assets/audio/coin.mp3";
+import barrierAudio from "../assets/audio/barrier.mp3";
 
-type SoundName = "button-press" | "music" | "list-show" | "snow" | "jump" | "game-end" | "coin";
+type SoundName = "button-press" | "music" | "list-show" | "snow" | "jump" | "game-end" | "coin" | "barrier";
 
 export class GameAudio {
   muted = true;
@@ -46,6 +47,10 @@ export class GameAudio {
     src: coinAudio,
   });
 
+  barrier = new Howl({
+    src: barrierAudio,
+  });
+
   getSounds(name: SoundName): Howl[] {
     switch (name) {
       case "button-press":
@@ -62,6 +67,8 @@ export class GameAudio {
         return [this.gameEnd];
       case "coin":
         return [this.coin];
+      case "barrier":
+        return [this.barrier];
     }
     return [];
   }
@@ -107,7 +114,7 @@ export class GameAudio {
   }
 
   playMusic() {
-    this.play({ name: "music" });
+    this.play({ name: "music", stop: ["music"] });
   }
 
   stopMusic() {
@@ -131,10 +138,14 @@ export class GameAudio {
   }
 
   playGameEnd() {
-    this.play({ name: "game-end", stop: ["jump", "snow", "coin"] });
+    this.play({ name: "game-end", stop: ["jump", "snow", "coin", "music"] });
   }
 
   playCoin() {
     this.play({ name: "coin" });
+  }
+
+  playBarrier() {
+    this.play({ name: "barrier" });
   }
 }

@@ -98,6 +98,7 @@ export class Game {
       this.#ui.restart();
       this.hero.restart();
       this.background.restart();
+      this.#audio.playMusic();
     }
   };
 
@@ -106,7 +107,7 @@ export class Game {
     this.#ui.switchToEndgame(success);
   }
 
-  checkEndGame() {
+  endGameWithCheck() {
     const lastScore = this.loadScore();
     const score = this.getScore();
     const success = score > lastScore;

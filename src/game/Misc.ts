@@ -79,6 +79,7 @@ export class MiscLayer extends Container {
   treeSpawnTime = 0;
   cloudSpawnTime = 0;
   coinSpawnTime = 0;
+  stopperSpawnTime = 0;
   options = {
     treeSpawnChance: 0.3,
     treeSpawnAt: 1000,
@@ -88,6 +89,8 @@ export class MiscLayer extends Container {
     coinSpawnChance: 0.2,
     coinSpawnAt: 1000,
     coinSpawnRange: 400,
+    stopperSpawnChance: 0.3,
+    stopperSpawnAt: 1000,
   };
 
   constructor({ game }: { game: Game }) {
@@ -169,10 +172,25 @@ export class MiscLayer extends Container {
     }
   }
 
+  checkSpawnStoppers(deltaMS: number) {
+    if (this.stopperSpawnTime > this.options.stopperSpawnAt) {
+      if (Math.random() > this.options.stopperSpawnChance) {
+        const stopper = new Stopper({ game: this.game });
+        stopper.position.x = SceneManager.width + stopper.width;
+        stopper.position.y = SceneManager.height - this.game.options.groundMargin - stopper.height;
+        this.stoppers.addChild(stopper);
+      }
+      this.stopperSpawnTime = 0;
+    } else {
+      this.stopperSpawnTime += deltaMS;
+    }
+  }
+
   handleUpdate(deltaMS: number) {
     this.checkSpawnTrees(deltaMS);
     this.checkSpawnClouds(deltaMS);
     this.checkSpawnCoins(deltaMS);
+    this.checkSpawnStoppers(deltaMS);
 
     this.cloudsOrTrees.children.forEach((cloudOrTree) => {
       cloudOrTree.handleUpdate(deltaMS);
