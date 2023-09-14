@@ -4,8 +4,6 @@
 
 Originall [demo](https://nb-test-task-dev.web.app/).
 
-`src-tiled` folder refers to [Tiled Map Editor](https://www.mapeditor.org/download.html)
-
 `src-texture` folder refers to [Free Texture Packer](http://free-tex-packer.com/download/)
 
 ## Install node modules (Recommended NodeJS version v16)
